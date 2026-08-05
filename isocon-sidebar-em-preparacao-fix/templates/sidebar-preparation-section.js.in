@@ -4,21 +4,7 @@
  * em interaction-patch.js pelo instalador.
  */
 
-const PREPARATION_ROUTES = [
-  "/admin/pedidos",
-  "/admin/clientes",
-  "/admin/fornecedores",
-  "/admin/cotacoes",
-  "/admin/financeiro",
-  "/admin/relatorios",
-  "/admin/categorias",
-  "/admin/marcas",
-  "/admin/unidades",
-  "/admin/atributos",
-  "/admin/usuarios",
-  "/admin/permissoes",
-  "/admin/logs"
-];
+const PREPARATION_ROUTES = __PREPARATION_ROUTES__;
 
 const normalizeHref = (value = "") => {
   const href = String(value || "").trim();
