@@ -123,10 +123,12 @@ function installImageFallback(image) {
 
 function installSourceFallback(source) {
   if (!(source instanceof HTMLSourceElement)) return;
+  if (source.dataset.isoconAssetBound === "true") return;
 
   const current = source.getAttribute("src") || "";
+  source.dataset.isoconAssetBound = "true";
   const local = localAssetUrl(current);
-  if (local) source.src = local;
+  if (local && source.src !== local) source.src = local;
 
   const currentSet = source.getAttribute("srcset") || "";
   if (!currentSet) return;
@@ -140,17 +142,21 @@ function installSourceFallback(source) {
     })
     .join(", ");
 
-  source.srcset = normalizedSet;
+  if (source.srcset !== normalizedSet) {
+    source.srcset = normalizedSet;
+  }
 }
 
 function installDocumentLink(link) {
   if (!(link instanceof HTMLAnchorElement)) return;
+  if (link.dataset.isoconAssetBound === "true") return;
 
   const current = link.getAttribute("href") || "";
+  link.dataset.isoconAssetBound = "true";
   const local = localAssetUrl(current);
   if (!local) return;
 
-  link.href = local;
+  if (link.href !== local) link.href = local;
 
   link.addEventListener("click", async (event) => {
     if (link.dataset.isoconRawDocument === "true") return;

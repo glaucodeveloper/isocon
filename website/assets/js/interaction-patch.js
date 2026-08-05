@@ -208,7 +208,17 @@ function toggleFavorite(id) {
 }
 
 function syncItemControls(root = document) {
-  root.querySelectorAll("item-card").forEach((card) => {
+  const cards = [];
+
+  if (root instanceof Element && root.matches("item-card")) {
+    cards.push(root);
+  }
+
+  root.querySelectorAll?.("item-card").forEach((card) => {
+    cards.push(card);
+  });
+
+  cards.forEach((card) => {
     const checkbox = card.querySelector("[data-add-item]");
     const favorite = card.querySelector("button.favorite");
     const id = checkbox?.dataset.addItem;
@@ -221,8 +231,15 @@ function syncItemControls(root = document) {
     label?.classList.toggle("is-selected", selected);
     if (label) {
       const text = label.querySelector("[data-list-label]");
-      if (text) text.textContent = selected ? "Item adicionado à lista" : "Adicionar à lista";
-      else {
+      const desiredLabel = selected
+        ? "Item adicionado à lista"
+        : "Adicionar à lista";
+
+      if (text) {
+        if (text.textContent !== desiredLabel) {
+          text.textContent = desiredLabel;
+        }
+      } else {
         for (const node of [...label.childNodes]) {
           if (node.nodeType === Node.TEXT_NODE) node.remove();
         }
@@ -242,7 +259,16 @@ function syncItemControls(root = document) {
         "aria-label",
         active ? "Remover item dos favoritos" : "Salvar item nos favoritos",
       );
-      favorite.innerHTML = `<i class="bi bi-${active ? "heart-fill" : "heart"}"></i>`;
+      const desiredIconClass =
+        `bi bi-${active ? "heart-fill" : "heart"}`;
+      const currentIcon = favorite.querySelector("i");
+
+      if (!currentIcon || currentIcon.className !== desiredIconClass) {
+        const icon = document.createElement("i");
+        icon.className = desiredIconClass;
+        favorite.replaceChildren(icon);
+      }
+
       favorite.title = `Favoritos: ${ratingFor(id)}`;
     }
   });
@@ -282,8 +308,38 @@ document.addEventListener("favoritechange", () => {
   refreshAdminNotifications();
 });
 
-new MutationObserver(() => syncItemControls())
-  .observe(document.documentElement, { childList: true, subtree: true });
+let itemControlSyncScheduled = false;
+
+function scheduleItemControlSync() {
+  if (itemControlSyncScheduled) return;
+  itemControlSyncScheduled = true;
+
+  queueMicrotask(() => {
+    itemControlSyncScheduled = false;
+    syncItemControls();
+  });
+}
+
+new MutationObserver((mutations) => {
+  const containsNewItemCard = mutations.some((mutation) =>
+    [...mutation.addedNodes].some((node) =>
+      node instanceof Element
+      && (
+        node.matches("item-card")
+        || Boolean(node.querySelector?.("item-card"))
+      )
+    )
+  );
+
+  if (containsNewItemCard) {
+    scheduleItemControlSync();
+  }
+}).observe(document.documentElement, {
+  childList: true,
+  subtree: true,
+});
+
+document.addEventListener("DOMContentLoaded", scheduleItemControlSync);
 
 /* -------------------------------------------------------------------------- */
 /* Mensagens de contato.                                                       */
