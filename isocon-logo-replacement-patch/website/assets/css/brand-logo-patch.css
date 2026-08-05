@@ -1,0 +1,79 @@
+/*
+ * Substitui o antigo bloco textual .brand-symbol por uma imagem real.
+ * As regras abaixo anulam fundo, inclinação e tipografia aplicados ao <span>.
+ */
+
+img.brand-symbol.brand-logo-image {
+  display: block;
+  flex: 0 0 auto;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  object-fit: contain;
+  object-position: center;
+  color: transparent;
+  background: transparent !important;
+  border: 0;
+  border-radius: 0 !important;
+  box-shadow: none;
+  font-size: 0;
+  letter-spacing: normal;
+  transform: none !important;
+}
+
+/* Cabeçalho público */
+.navbar-brand.brand-lockup img.brand-logo-image {
+  width: 52px;
+  height: 52px;
+}
+
+/* Rodapé */
+.site-footer .brand-lockup img.brand-logo-image,
+.brand-lockup-light img.brand-logo-image {
+  width: 50px;
+  height: 50px;
+}
+
+/* Login administrativo */
+.admin-login-brand img.brand-logo-image {
+  width: 58px;
+  height: 58px;
+}
+
+/* Sidebar administrativa */
+.admin-brand img.brand-logo-image {
+  width: 42px;
+  height: 42px;
+}
+
+/* Preserva a logo ao recolher a sidebar */
+.admin-shell.sidebar-collapsed .admin-brand img.brand-logo-image {
+  width: 42px;
+  height: 42px;
+  margin-inline: auto;
+}
+
+/* Evita deformação em qualquer agrupamento de marca */
+.brand-lockup img.brand-logo-image,
+.admin-login-brand img.brand-logo-image,
+.admin-brand img.brand-logo-image {
+  max-width: none;
+}
+
+@media (max-width: 767.98px) {
+  .navbar-brand.brand-lockup img.brand-logo-image {
+    width: 42px;
+    height: 42px;
+  }
+
+  .site-footer .brand-lockup img.brand-logo-image,
+  .brand-lockup-light img.brand-logo-image {
+    width: 44px;
+    height: 44px;
+  }
+
+  .admin-login-brand img.brand-logo-image {
+    width: 50px;
+    height: 50px;
+  }
+}

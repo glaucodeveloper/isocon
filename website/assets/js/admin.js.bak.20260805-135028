@@ -86,7 +86,7 @@ export class AdminApp extends HTMLElement {
     this.innerHTML = template`
       <main class="admin-login">
         <section class="admin-login-visual">
-          <div class="admin-login-brand"><img class="brand-symbol brand-logo-image" src="./assets/images/logo%201.png" alt="ISOCON"><span>ISOCON<small>GESTÃO DO CATÁLOGO B2B</small></span></div>
+          <div class="admin-login-brand"><span class="brand-symbol">IS</span><span>ISOCON<small>GESTÃO DO CATÁLOGO B2B</small></span></div>
           <div><span class="red-line"></span><h1>Catálogo organizado.<br>Publicação controlada.</h1>
             <p>Cadastre segmentos, linhas e itens, revise a apresentação pública e publique as alterações diretamente no repositório oficial.</p></div>
           <ul><li><i class="bi bi-github"></i>Autorização validada pelo GitHub</li>
@@ -188,7 +188,7 @@ export class AdminApp extends HTMLElement {
     this.innerHTML = template`
       <div class="admin-shell">
         <aside class="admin-sidebar" id="adminSidebar">
-          <a class="admin-brand" href="#/admin/dashboard"><img class="brand-symbol brand-logo-image" src="./assets/images/logo%201.png" alt="ISOCON"><span>ISOCON<small>ADMINISTRAÇÃO</small></span></a>
+          <a class="admin-brand" href="#/admin/dashboard"><span class="brand-symbol">IS</span><span>ISOCON<small>ADMINISTRAÇÃO</small></span></a>
           <nav>
             <span class="admin-nav-label">MENU PRINCIPAL</span>
             <a class="${active("/admin/dashboard") ? "active" : ""}" href="#/admin/dashboard"><i class="bi bi-grid"></i>Dashboard</a>
