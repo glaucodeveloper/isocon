@@ -43,6 +43,9 @@ jobs:
             python3 -m json.tool website/data/catalog.json >/dev/null
           fi
 
+      - name: Gerar SEO estático
+        run: python3 scripts/build-seo.py
+
       - name: Configurar GitHub Pages
         uses: actions/configure-pages@v5
 

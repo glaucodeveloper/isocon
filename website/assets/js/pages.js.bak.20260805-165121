@@ -208,89 +208,20 @@ export function linesPage() {
 export function segmentPage(id) {
   const segment = findSegment(id);
   if (!segment) return notFoundPage();
-
-  const segments = state.data.segments;
   const lines = state.data.lines.filter((line) => line.segmentId === id);
-
   mountCards("[data-segment-line]", "line-card", lines);
-
   return pageHero(segment.name, segment.description, segment.image, [
-    {
-      icon: "bi-box",
-      title: "Diversidade de itens",
-      text: "Linhas adequadas a diferentes aplicações.",
-    },
-    {
-      icon: "bi-shield-check",
-      title: "Qualidade",
-      text: "Seleção orientada ao uso empresarial.",
-    },
-    {
-      icon: "bi-headset",
-      title: "Atendimento consultivo",
-      text: "Apoio para composição da demanda.",
-    },
-    {
-      icon: "bi-truck",
-      title: "Entrega nacional",
-      text: "Condições definidas durante a cotação.",
-    },
+    {icon:"bi-box",title:"Diversidade de itens",text:"Linhas adequadas a diferentes aplicações."},
+    {icon:"bi-shield-check",title:"Qualidade",text:"Seleção orientada ao uso empresarial."},
+    {icon:"bi-headset",title:"Atendimento consultivo",text:"Apoio para composição da demanda."},
+    {icon:"bi-truck",title:"Entrega nacional",text:"Condições definidas durante a cotação."},
   ]) + template`
-  <section class="section-pad">
-    <div class="container-fluid site-container">
-      ${breadcrumbs([
-        {path: "/", label: "Início"},
-        {path: "/segmentos", label: "Segmentos"},
-        {label: segment.name},
-      ])}
-
-      <div class="catalog-layout">
-        <aside class="catalog-sidebar">
-          <a href="#/segmentos">
-            <i class="bi bi-grid"></i>
-            Todos os segmentos
-            <i class="bi bi-chevron-right"></i>
-          </a>
-
-          ${segments.map((entry) => `
-            <a
-              class="${entry.id === id ? "active" : ""}"
-              href="#/segmento/${entry.id}">
-              <i class="bi ${entry.icon}"></i>
-              ${esc(entry.name)}
-              <i class="bi bi-chevron-right"></i>
-            </a>
-          `).join("")}
-        </aside>
-
-        <div class="catalog-content">
-          <div class="section-heading">
-            <div>
-              <h2>Linhas de ${esc(segment.name)}</h2>
-              <p>Escolha uma linha para consultar os itens disponíveis.</p>
-            </div>
-          </div>
-
-          <div class="row g-4">
-            ${lines.length
-              ? lines.map(() => `
-                <div
-                  class="col-md-6 col-xl-4"
-                  data-segment-line>
-                </div>
-              `).join("")
-              : `
-                <div class="col-12">
-                  <p>Linhas em preparação.</p>
-                </div>
-              `}
-          </div>
-        </div>
-      </div>
-
-      ${supportCta()}
-    </div>
-  </section>`;
+  <section class="section-pad"><div class="container-fluid site-container">
+    ${breadcrumbs([{path:"/",label:"Início"},{path:"/segmentos",label:"Segmentos"},{label:segment.name}])}
+    <div class="section-heading"><div><h2>Linhas de ${esc(segment.name)}</h2><p>Escolha uma linha para consultar os itens disponíveis.</p></div></div>
+    <div class="row g-4">${lines.length ? lines.map(() => `<div class="col-md-6 col-xl-4" data-segment-line></div>`).join("") : "<p>Linhas em preparação.</p>"}</div>
+    ${supportCta()}
+  </div></section>`;
 }
 
 function filteredItems(lineId) {
