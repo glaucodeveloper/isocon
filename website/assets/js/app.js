@@ -4,7 +4,7 @@ import "./admin.js";
 import { state, route } from "./utils.js";
 import {
   homePage, segmentsPage, linesPage, segmentPage, linePage, itemPage,
-  logisticsPage, representativesPage, contactPage, aboutPage, searchPage,
+  logisticsPage, contactPage, aboutPage, searchPage,
   quotePage, notFoundPage, bindPublicPage
 } from "./pages.js";
 
@@ -33,7 +33,6 @@ class IsoconApp extends HTMLElement {
     if (path.startsWith("/linha/")) return linePage(path.split("/")[2]);
     if (path.startsWith("/item/")) return itemPage(path.split("/")[2]);
     if (path === "/logistica") return logisticsPage();
-    if (path === "/representantes") return representativesPage();
     if (path === "/contato") return contactPage();
     if (path === "/sobre") return aboutPage();
     if (path === "/busca") return searchPage();

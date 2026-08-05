@@ -494,46 +494,6 @@ export function logisticsPage() {
   </div></section>`;
 }
 
-export function representativesPage() {
-  const reps = state.data.representatives;
-  return template`
-  <section class="representatives-hero" style="--hero-image:url('./assets/images/hero-representatives.webp')">
-    <div class="container-fluid site-container"><div class="representatives-copy"><span class="red-line"></span>
-      <h1>Nossa equipe.<br><em>Presença que aproxima.</em></h1>
-      <p>Representantes e consultores preparados para compreender sua demanda, organizar produtos e apoiar a logística do negócio.</p>
-      <div class="rep-hero-benefits">${[
-        ["bi-people","Atendimento consultivo","A necessidade é compreendida antes da indicação."],
-        ["bi-handshake","Relacionamento próximo","Acompanhamento durante todas as etapas."],
-        ["bi-graph-up-arrow","Experiência de mercado","Orientação comercial para diferentes setores."],
-        ["bi-shield-check","Compromisso com resultados","Foco em viabilizar o fornecimento adequado."]
-      ].map(([icon,title,text]) => `<article><i class="bi ${icon}"></i><div><strong>${title}</strong><span>${text}</span></div></article>`).join("")}</div>
-    </div></div>
-  </section>
-  <section class="section-pad representatives-body"><div class="container-fluid site-container">
-    <div class="rep-value-strip">${[
-      ["bi-people","Equipe especializada","Representantes focados em diferentes regiões."],
-      ["bi-map","Regiões atendidas","Cobertura comercial nas cinco regiões."],
-      ["bi-chat-square-text","Relacionamento de confiança","Contato humano e continuidade comercial."],
-      ["bi-bullseye","Soluções personalizadas","Produtos e condições alinhados à demanda."]
-    ].map(([icon,title,text]) => `<article><i class="bi ${icon}"></i><div><strong>${title}</strong><span>${text}</span></div></article>`).join("")}</div>
-    <h2 class="center-heading">Representantes por região</h2><span class="center-red-line"></span>
-    <div class="representatives-grid">
-      <aside class="coverage-card"><h3>Atuação nacional</h3><p>A equipe é organizada por região para dar proximidade ao atendimento.</p>
-        <img src="./assets/images/regions-map.webp" alt="Mapa ilustrativo das regiões do Brasil">
-        <ul>${reps.map((rep) => `<li><span class="region-dot region-${rep.id}"></span>${esc(rep.region)}</li>`).join("")}</ul>
-      </aside>
-      <div class="rep-cards">${reps.map((rep) => `<article class="representative-card region-border-${rep.id}">
-        <small>${esc(rep.region)}</small><img src="${esc(rep.photo)}" alt="${esc(rep.name)}"><h3>${esc(rep.name)}</h3><span>${esc(rep.role)}</span>
-        <a href="tel:${rep.phone.replace(/\D/g, "")}"><i class="bi bi-telephone"></i>${esc(rep.phone)}</a>
-        <a href="mailto:${rep.email}"><i class="bi bi-envelope"></i>${esc(rep.email)}</a>
-        <p><i class="bi bi-geo-alt"></i><strong>Estados:</strong> ${esc(rep.states.join(", "))}</p>
-      </article>`).join("")}</div>
-    </div>
-    <div class="content-validation-note"><i class="bi bi-exclamation-triangle"></i><span>Os nomes, imagens e contatos desta demonstração devem ser revisados antes da publicação oficial.</span></div>
-    ${supportCta("Fale com o representante da sua região", "Nossa equipe organiza sua demanda e apresenta as alternativas de fornecimento.")}
-  </div></section>`;
-}
-
 export function contactPage() {
   const site = state.data.site;
   return template`

@@ -9,7 +9,7 @@ export class SiteHeader extends HTMLElement {
     const activeRoute = route().split("?")[0];
     const nav = [
       ["/", "Início"], ["/segmentos", "Segmentos"], ["/linhas", "Linhas de Produtos"],
-      ["/logistica", "Logística"], ["/representantes", "Representantes"],
+      ["/logistica", "Logística"],
       ["/sobre", "Sobre a ISOCON"], ["/contato", "Contato"],
     ];
     this.innerHTML = template`
@@ -95,7 +95,7 @@ export class SiteFooter extends HTMLElement {
               </div>
             </div>
             <div class="col-6 col-lg-2">
-              <h3>Institucional</h3><a href="#/sobre">Quem somos</a><a href="#/representantes">Equipe</a>
+              <h3>Institucional</h3><a href="#/sobre">Quem somos</a>
               <a href="#/logistica">Logística</a><a href="#/contato">Trabalhe conosco</a>
             </div>
             <div class="col-6 col-lg-2">

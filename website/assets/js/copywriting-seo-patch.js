@@ -189,7 +189,6 @@ function labelForPath(path) {
     site: "Institucional",
     home: "Página inicial",
     logistics: "Logística",
-    representatives: "Representantes",
     about: "Sobre a ISOCON",
     title: "Título",
     subtitle: "Subtítulo",
@@ -406,7 +405,6 @@ function copywritingView() {
         ${structuralSection("site", "Dados institucionais", "Identidade, contatos, endereço e cobertura.")}
         ${structuralSection("home", "Página inicial", "Capa, benefícios e mensagens principais.")}
         ${structuralSection("logistics", "Logística", "Etapas, explicações e cobertura operacional.")}
-        ${structuralSection("representatives", "Representantes", "Apresentação e informações regionais.")}
         ${structuralSection("about", "Sobre a ISOCON", "Textos institucionais e posicionamento.")}
       </section>
 
