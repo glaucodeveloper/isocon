@@ -143,7 +143,9 @@ function installSourceFallback(source) {
     .join(", ");
 
   if (source.srcset !== normalizedSet) {
+    if (source.srcset !== normalizedSet) {
     source.srcset = normalizedSet;
+  }
   }
 }
 

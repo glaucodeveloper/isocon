@@ -564,21 +564,44 @@ if (adminPrototype && !adminPrototype.__isoconCopywritingSeoPatch) {
   };
 }
 
-const observer = new MutationObserver(() => {
-  if (!document.body.classList.contains("admin-mode")) {
-    queueMicrotask(() => {
-      applyStructuralCopy(document.querySelector("isocon-app") || document);
-      applyRuntimeSeo();
-    });
-  }
+let copyRefreshTimer = 0;
+
+function scheduleCopyRefresh() {
+  if (document.body.classList.contains("admin-mode")) return;
+
+  window.clearTimeout(copyRefreshTimer);
+  copyRefreshTimer = window.setTimeout(() => {
+    applyStructuralCopy(document.querySelector("isocon-app") || document);
+    applyRuntimeSeo();
+  }, 40);
+}
+
+const observer = new MutationObserver((mutations) => {
+  if (document.body.classList.contains("admin-mode")) return;
+
+  const publicShellChanged = mutations.some((mutation) =>
+    [...mutation.addedNodes].some((node) =>
+      node instanceof Element
+      && (
+        node.matches("site-header, #publicPage, site-footer, quote-bar, chat-widget")
+        || Boolean(
+          node.querySelector?.(
+            "site-header, #publicPage, site-footer, quote-bar, chat-widget",
+          )
+        )
+      )
+    )
+  );
+
+  if (publicShellChanged) scheduleCopyRefresh();
 });
 
-observer.observe(document.documentElement, {
+const applicationRoot = document.querySelector("isocon-app") || document.body;
+
+observer.observe(applicationRoot, {
   childList: true,
   subtree: true,
 });
 
-document.addEventListener("DOMContentLoaded", () => {
-  applyStructuralCopy();
-  applyRuntimeSeo();
-});
+window.addEventListener("hashchange", scheduleCopyRefresh);
+document.addEventListener("DOMContentLoaded", scheduleCopyRefresh);
