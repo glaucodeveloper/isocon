@@ -82,170 +82,44 @@ export async function validatePat(token) {
   }
   return { profile, repository };
 }
-const repositoryApi = () =>
-  `https://api.github.com/repos/${githubConfig.owner}/${githubConfig.repo}`;
-
-const repositoryHeaders = (token) => ({
-  Authorization: `Bearer ${token}`,
-  Accept: "application/vnd.github+json",
-});
-
-async function githubResolveCatalogEntry(token) {
-  const response = await fetch(
-    `${repositoryApi()}/git/trees/${encodeURIComponent(githubConfig.branch)}?recursive=1`,
-    {
-      cache: "no-store",
-      headers: repositoryHeaders(token),
-    },
-  );
-
-  if (response.status === 404 || response.status === 409) return null;
-
-  if (!response.ok) {
-    const error = await response.json().catch(() => ({}));
-    throw new Error(
-      error.message || "Não foi possível localizar o catálogo na base institucional.",
-    );
-  }
-
-  const payload = await response.json();
-  const candidates = [
-    githubConfig.catalogPath,
-    "website/data/catalog.json",
-    "data/catalog.json",
-  ];
-
-  const entry =
-    candidates
-      .map((path) => (payload.tree || []).find(
-        (candidate) => candidate.type === "blob" && candidate.path === path,
-      ))
-      .find(Boolean)
-    || (payload.tree || []).find(
-      (candidate) =>
-        candidate.type === "blob"
-        && candidate.path.endsWith("/data/catalog.json"),
-    )
-    || null;
-
-  if (entry?.path) {
-    githubConfig.catalogPath = entry.path;
-    githubConfig.uploadPath = entry.path.startsWith("website/")
-      ? "website/assets/uploads"
-      : "assets/uploads";
-  }
-
-  return entry;
-}
-
-async function githubReadBlob(token, sha) {
-  const response = await fetch(`${repositoryApi()}/git/blobs/${sha}`, {
-    cache: "no-store",
-    headers: repositoryHeaders(token),
-  });
-
-  if (!response.ok) {
-    const error = await response.json().catch(() => ({}));
-    throw new Error(
-      error.message || "Não foi possível ler o catálogo na base institucional.",
-    );
-  }
-
-  return response.json();
-}
-
 export async function githubReadCatalog(token) {
-  const entry = await githubResolveCatalogEntry(token);
-
-  if (!entry) {
-    return {
-      sha: null,
-      data: structuredClone(state.data),
-      isNew: true,
-    };
+  const response = await fetch(
+    `https://api.github.com/repos/${githubConfig.owner}/${githubConfig.repo}/contents/${githubConfig.catalogPath}?ref=${githubConfig.branch}`,
+    { headers: { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json" } },
+  );
+  if (response.status === 404) return { sha: null, data: structuredClone(state.data), isNew: true };
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}));
+    throw new Error(error.message || "Não foi possível ler o catálogo no GitHub.");
   }
-
-  const payload = await githubReadBlob(token, entry.sha);
-
-  return {
-    sha: entry.sha,
-    data: JSON.parse(decodeBase64Utf8(payload.content)),
-    isNew: false,
-  };
+  const payload = await response.json();
+  return { sha: payload.sha, data: JSON.parse(decodeBase64Utf8(payload.content)), isNew: false };
 }
-
-async function githubPutCatalog(token, data, sha, message) {
+export async function githubWriteCatalog(token, data, sha, message) {
   const body = {
     message,
     content: encodeBase64Utf8(JSON.stringify(data, null, 2)),
     branch: githubConfig.branch,
   };
-
   if (sha) body.sha = sha;
-
-  return fetch(
-    `${repositoryApi()}/contents/${githubConfig.catalogPath}`,
+  const response = await fetch(
+    `https://api.github.com/repos/${githubConfig.owner}/${githubConfig.repo}/contents/${githubConfig.catalogPath}`,
     {
       method: "PUT",
       headers: {
-        ...repositoryHeaders(token),
+        Authorization: `Bearer ${token}`,
+        Accept: "application/vnd.github+json",
         "Content-Type": "application/json",
       },
       body: JSON.stringify(body),
     },
   );
-}
-
-export async function githubWriteCatalog(token, data, sha, message) {
-  /*
-   * O arquivo pode ter sido carregado antes de o caminho remoto ser resolvido.
-   * Antes de atualizar, busca-se sempre a entrada atual no Git e utiliza-se
-   * o SHA do blob existente. Sem ele, a API interpreta a operação como criação.
-   */
-  let entry = await githubResolveCatalogEntry(token);
-  let currentSha = entry?.sha || sha || null;
-
-  let response = await githubPutCatalog(
-    token,
-    data,
-    currentSha,
-    message,
-  );
-
-  if (!response.ok) {
-    const firstError = await response.clone().json().catch(() => ({}));
-    const retryable =
-      response.status === 409
-      || (
-        response.status === 422
-        && /sha|does not match|invalid request/i.test(
-          String(firstError.message || ""),
-        )
-      );
-
-    if (retryable) {
-      entry = await githubResolveCatalogEntry(token);
-      currentSha = entry?.sha || null;
-
-      response = await githubPutCatalog(
-        token,
-        data,
-        currentSha,
-        message,
-      );
-    }
-  }
-
   if (!response.ok) {
     const error = await response.json().catch(() => ({}));
-    throw new Error(
-      error.message || "Falha ao atualizar o catálogo institucional.",
-    );
+    throw new Error(error.message || "Falha ao gravar o catálogo no GitHub.");
   }
-
   return response.json();
 }
-
 export async function githubUploadFile(token, file, itemSlug, group = "items") {
   if (!file || !file.size) return null;
   if (file.size > 8 * 1024 * 1024) throw new Error(`O arquivo ${file.name} excede 8 MB.`);

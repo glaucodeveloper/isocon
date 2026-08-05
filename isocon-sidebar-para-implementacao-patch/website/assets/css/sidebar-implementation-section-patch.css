@@ -1,0 +1,55 @@
+/* ISOCON — seção administrativa “Para implementação” */
+
+#adminSidebar nav > .admin-implementation-divider {
+  display: block;
+  height: 1px;
+  margin: 11px 15px 6px;
+  background: rgba(117, 139, 169, .2);
+}
+
+#adminSidebar nav > .admin-implementation-label {
+  color: #8795a8;
+}
+
+#adminSidebar nav > .implementation-module {
+  position: relative;
+  color: #6f7e93;
+  background: transparent;
+  border-left-color: transparent;
+}
+
+#adminSidebar nav > .implementation-module:hover {
+  color: #44556e;
+  background: rgba(232, 238, 247, .62);
+}
+
+#adminSidebar nav > .implementation-module > i {
+  color: #8190a5;
+}
+
+#adminSidebar nav > .implementation-module small {
+  display: inline-flex;
+  align-items: center;
+  margin-left: auto;
+  padding: 2px 6px;
+  color: #80601a;
+  background: #fff2c8;
+  border-radius: 999px;
+  font-size: .43rem;
+  font-weight: 800;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.admin-shell.sidebar-collapsed
+  #adminSidebar nav > .admin-implementation-label,
+.admin-shell.sidebar-collapsed
+  #adminSidebar nav > .admin-implementation-divider {
+  display: none;
+}
+
+@media (max-width: 991.98px) {
+  #adminSidebar nav > .implementation-module small {
+    margin-left: 6px;
+  }
+}

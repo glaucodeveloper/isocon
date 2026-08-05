@@ -1,0 +1,13 @@
+/* ISOCON — estado de falha definitiva de imagem */
+
+img.asset-load-failed {
+  min-height: 120px;
+  object-fit: contain;
+  background:
+    linear-gradient(135deg, #f3f6fa, #e8edf4);
+  border: 1px dashed #aeb9c8;
+}
+
+img.asset-load-failed::after {
+  content: "Imagem indisponível";
+}

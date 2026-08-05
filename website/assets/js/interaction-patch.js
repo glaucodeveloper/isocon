@@ -786,6 +786,8 @@ document.addEventListener("click", (event) => {
 await import("./chat-conversations-patch.js");
 await import("./institutional-admin-presence-patch.js");
 await import("./product-media-repo-patch.js");
+await import("./asset-url-fallback-patch.js");
+await import("./sidebar-implementation-section-patch.js");
 await import("./app.js");
 
 syncItemControls();
