@@ -23,7 +23,6 @@ export class SiteHeader extends HTMLElement {
           </div>
           <div class="d-flex gap-4 flex-wrap">
             <span><i class="bi bi-clock me-2"></i>${esc(site.hours)}</span>
-            <a href="#/admin"><i class="bi bi-person me-2"></i>Área administrativa</a>
           </div>
         </div>
       </div>

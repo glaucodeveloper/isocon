@@ -1,0 +1,28 @@
+/* ISOCON — mídia pendente preservada na edição */
+
+.pending-media b {
+  display: inline-block;
+  margin-left: 5px;
+  padding: 2px 6px;
+  color: #8a5a00;
+  background: #fff0c4;
+  border-radius: 999px;
+  font-size: .48rem;
+  font-weight: 850;
+}
+
+.gallery-preview figure.pending-media {
+  position: relative;
+  border-color: #e0b450;
+  background: #fffaf0;
+}
+
+.document-preview .pending-media {
+  border-color: #e0b450;
+  background: #fffaf0;
+}
+
+.upload-zone:has(input:focus-visible) {
+  outline: 3px solid rgba(13, 67, 164, .18);
+  outline-offset: 2px;
+}
