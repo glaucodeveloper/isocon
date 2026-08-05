@@ -1,0 +1,1264 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Testes de latência para um chatbox de WhatsApp com inferência por IA">
+  <title>Latência de inferência — WhatsApp</title>
+  <style>
+    :root {
+      --green-900: #075e54;
+      --green-700: #128c7e;
+      --green-500: #25d366;
+      --green-100: #d9fdd3;
+      --bg: #f4f6f7;
+      --surface: #ffffff;
+      --surface-2: #f0f2f5;
+      --border: #d9dee2;
+      --text: #202c33;
+      --muted: #667781;
+      --blue: #1570ef;
+      --ok: #067647;
+      --ok-bg: #dcfae6;
+      --warn: #b54708;
+      --warn-bg: #fef0c7;
+      --danger: #b42318;
+      --danger-bg: #fee4e2;
+      --shadow: 0 8px 30px rgba(17, 24, 39, .08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    button, input, select, textarea { font: inherit; }
+
+    .app {
+      width: min(1440px, 100%);
+      min-height: 100vh;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 330px minmax(0, 1fr);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .sidebar {
+      min-height: 100vh;
+      border-right: 1px solid var(--border);
+      background: var(--surface);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand {
+      min-height: 72px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--surface-2);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .avatar {
+      width: 42px;
+      height: 42px;
+      flex: 0 0 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--green-900);
+      color: white;
+      font-weight: 800;
+      letter-spacing: -.03em;
+    }
+
+    .brand-title {
+      font-weight: 800;
+      font-size: 15px;
+    }
+
+    .brand-subtitle {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 3px;
+      line-height: 1.35;
+    }
+
+    .side-section {
+      padding: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .side-section.grow {
+      flex: 1;
+      overflow: auto;
+    }
+
+    .section-label {
+      margin: 0 0 9px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .field {
+      display: grid;
+      gap: 5px;
+      margin-bottom: 10px;
+    }
+
+    .field label {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .control {
+      width: 100%;
+      min-height: 40px;
+      padding: 8px 10px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      outline: none;
+      background: white;
+      color: var(--text);
+    }
+
+    .control:focus {
+      border-color: #6bc6a3;
+      box-shadow: 0 0 0 3px rgba(37, 211, 102, .12);
+    }
+
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .toggle {
+      position: relative;
+      width: 44px;
+      height: 24px;
+      flex: 0 0 44px;
+    }
+
+    .toggle input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      inset: 0;
+      cursor: pointer;
+      border-radius: 999px;
+      background: #b7c0c7;
+      transition: .2s;
+    }
+
+    .slider::before {
+      content: "";
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      left: 3px;
+      top: 3px;
+      border-radius: 50%;
+      background: white;
+      transition: .2s;
+      box-shadow: 0 1px 4px rgba(0,0,0,.2);
+    }
+
+    .toggle input:checked + .slider {
+      background: var(--green-700);
+    }
+
+    .toggle input:checked + .slider::before {
+      transform: translateX(20px);
+    }
+
+    .test-card {
+      width: 100%;
+      padding: 11px 12px;
+      margin-bottom: 9px;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      background: white;
+      text-align: left;
+      cursor: pointer;
+      transition: .15s;
+    }
+
+    .test-card:hover {
+      border-color: #a9b7bf;
+      background: #fafcfc;
+      transform: translateY(-1px);
+    }
+
+    .test-card strong {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 4px;
+    }
+
+    .test-card span {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.4;
+    }
+
+    .main {
+      min-width: 0;
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr;
+    }
+
+    .topbar {
+      min-height: 72px;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface-2);
+    }
+
+    .topbar h1 {
+      margin: 0;
+      font-size: 18px;
+      letter-spacing: -.02em;
+    }
+
+    .topbar p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .button {
+      min-height: 40px;
+      padding: 9px 14px;
+      border: 0;
+      border-radius: 9px;
+      font-weight: 800;
+      cursor: pointer;
+      background: var(--green-900);
+      color: white;
+    }
+
+    .button.secondary {
+      border: 1px solid var(--border);
+      background: white;
+      color: var(--text);
+    }
+
+    .button.danger {
+      background: var(--danger);
+    }
+
+    .button:disabled {
+      opacity: .55;
+      cursor: default;
+    }
+
+    .content {
+      padding: 18px;
+      overflow: auto;
+    }
+
+    .notice {
+      padding: 12px 14px;
+      margin-bottom: 14px;
+      border: 1px solid #b7ddca;
+      border-radius: 11px;
+      background: #effbf4;
+      color: #245c43;
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .metric {
+      min-width: 0;
+      padding: 14px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: white;
+    }
+
+    .metric-label {
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+
+    .metric-value {
+      margin-top: 8px;
+      font-size: 25px;
+      line-height: 1;
+      font-weight: 850;
+      letter-spacing: -.04em;
+    }
+
+    .metric-detail {
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .panel {
+      margin-bottom: 14px;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      background: white;
+      overflow: hidden;
+    }
+
+    .panel-header {
+      min-height: 52px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      border-bottom: 1px solid var(--border);
+      background: #fbfcfc;
+    }
+
+    .panel-header h2 {
+      margin: 0;
+      font-size: 14px;
+    }
+
+    .panel-header span {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .table-wrap {
+      overflow: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+
+    th, td {
+      padding: 10px 12px;
+      text-align: left;
+      border-bottom: 1px solid #edf0f2;
+      vertical-align: top;
+      white-space: nowrap;
+    }
+
+    th {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      background: #f8fafb;
+      color: var(--muted);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+
+    td.wrap {
+      white-space: normal;
+      min-width: 220px;
+      max-width: 430px;
+      line-height: 1.45;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .status.ok {
+      color: var(--ok);
+      background: var(--ok-bg);
+    }
+
+    .status.warn {
+      color: var(--warn);
+      background: var(--warn-bg);
+    }
+
+    .status.fail {
+      color: var(--danger);
+      background: var(--danger-bg);
+    }
+
+    .bar-shell {
+      width: 150px;
+      height: 8px;
+      margin-top: 5px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #edf0f2;
+    }
+
+    .bar {
+      height: 100%;
+      border-radius: 999px;
+      background: var(--green-700);
+    }
+
+    .log {
+      min-height: 130px;
+      max-height: 270px;
+      padding: 12px;
+      overflow: auto;
+      background: #111820;
+      color: #d8e4ec;
+      font: 11px/1.55 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    .log-line {
+      display: block;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+
+    .log-line.error { color: #ffaca6; }
+    .log-line.ok { color: #87e6b5; }
+    .log-line.muted { color: #92a6b2; }
+
+    .empty {
+      padding: 26px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 12px;
+    }
+
+    .footer-note {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.55;
+      margin-top: 8px;
+    }
+
+    @media (max-width: 1120px) {
+      .metrics-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 850px) {
+      .app { grid-template-columns: 1fr; }
+      .sidebar { min-height: auto; }
+      .side-section.grow { max-height: 330px; }
+      .metrics-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .topbar { align-items: flex-start; }
+    }
+
+    @media (max-width: 560px) {
+      .metrics-grid { grid-template-columns: 1fr; }
+      .topbar { flex-direction: column; }
+      .actions { width: 100%; justify-content: stretch; }
+      .actions .button { flex: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="avatar">ms</div>
+        <div>
+          <div class="brand-title">Latência do chatbox</div>
+          <div class="brand-subtitle">Testes específicos para mensagens recebidas pelo WhatsApp</div>
+        </div>
+      </div>
+
+      <div class="side-section">
+        <p class="section-label">Conexão</p>
+
+        <div class="field">
+          <label for="endpoint">Endpoint de inferência</label>
+          <input id="endpoint" class="control" value="/api/inference">
+        </div>
+
+        <div class="field">
+          <label for="timeout">Timeout por requisição (ms)</label>
+          <input id="timeout" class="control" type="number" min="1000" step="1000" value="15000">
+        </div>
+
+        <div class="field">
+          <label for="runs">Repetições nos testes simples</label>
+          <input id="runs" class="control" type="number" min="1" max="50" value="5">
+        </div>
+
+        <div class="field">
+          <label for="concurrency">Concorrência no teste de pico</label>
+          <input id="concurrency" class="control" type="number" min="2" max="30" value="5">
+        </div>
+
+        <div class="toggle-row">
+          <span>Usar respostas simuladas</span>
+          <label class="toggle">
+            <input id="mockMode" type="checkbox" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="side-section">
+        <p class="section-label">Critérios de avaliação</p>
+
+        <div class="field">
+          <label for="excellent">Bom até (ms)</label>
+          <input id="excellent" class="control" type="number" min="100" step="100" value="2000">
+        </div>
+
+        <div class="field">
+          <label for="acceptable">Aceitável até (ms)</label>
+          <input id="acceptable" class="control" type="number" min="500" step="100" value="5000">
+        </div>
+      </div>
+
+      <div class="side-section grow">
+        <p class="section-label">Cenários do WhatsApp</p>
+        <div id="testList"></div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <h1>Testes de tempo de resposta</h1>
+          <p>Latência total, TTFB, percentis, estabilidade e comportamento sob simultaneidade.</p>
+        </div>
+
+        <div class="actions">
+          <button id="runAll" class="button">Executar suíte</button>
+          <button id="exportJson" class="button secondary">Exportar JSON</button>
+          <button id="clear" class="button secondary">Limpar</button>
+        </div>
+      </header>
+
+      <div class="content">
+        <div class="notice">
+          O navegador mede <strong>TTFB</strong> como o tempo até o recebimento dos cabeçalhos HTTP.
+          Em uma resposta JSON não transmitida por streaming, isso não representa o primeiro token do modelo.
+          Para medir primeiro token real, o backend precisa expor streaming SSE ou NDJSON.
+        </div>
+
+        <section id="metrics" class="metrics-grid"></section>
+
+        <section class="panel">
+          <div class="panel-header">
+            <div>
+              <h2>Resultados por execução</h2>
+              <span>Cada linha corresponde a uma chamada real ou simulada.</span>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Teste</th>
+                  <th>Execução</th>
+                  <th>TTFB</th>
+                  <th>Total</th>
+                  <th>HTTP</th>
+                  <th>Avaliação</th>
+                  <th>Resposta</th>
+                </tr>
+              </thead>
+              <tbody id="resultsBody"></tbody>
+            </table>
+          </div>
+          <div id="emptyResults" class="empty">Nenhum teste executado.</div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-header">
+            <div>
+              <h2>Resumo por cenário</h2>
+              <span>p50 representa a experiência comum; p95 expõe atrasos ocasionais relevantes.</span>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Cenário</th>
+                  <th>Amostras</th>
+                  <th>Sucesso</th>
+                  <th>Média</th>
+                  <th>p50</th>
+                  <th>p95</th>
+                  <th>Máximo</th>
+                  <th>Resultado</th>
+                </tr>
+              </thead>
+              <tbody id="summaryBody"></tbody>
+            </table>
+          </div>
+          <div id="emptySummary" class="empty">O resumo será calculado após a primeira execução.</div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-header">
+            <div>
+              <h2>Log de execução</h2>
+              <span>Falhas de rede, timeout, parsing e progresso da suíte.</span>
+            </div>
+          </div>
+          <div id="log" class="log"></div>
+        </section>
+
+        <p class="footer-note">
+          A chave do provedor de IA deve permanecer no backend. Este HTML chama somente o endpoint da aplicação.
+        </p>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    (() => {
+      "use strict";
+
+      const TESTS = [
+        {
+          id: "cold-start",
+          title: "Primeira resposta / cold start",
+          description: "Uma chamada isolada para detectar inicialização de modelo, container ou conexão.",
+          kind: "cold",
+          messages: [
+            { role: "user", content: "Olá, preciso de ajuda." }
+          ]
+        },
+        {
+          id: "greeting",
+          title: "Saudação curta",
+          description: "Mensagem comum e pequena, repetida para medir a resposta em operação normal.",
+          kind: "repeated",
+          messages: [
+            { role: "user", content: "Boa tarde" }
+          ]
+        },
+        {
+          id: "commercial",
+          title: "Solicitação comercial",
+          description: "Intenção de cotação com resposta estruturada e coleta do próximo dado.",
+          kind: "repeated",
+          messages: [
+            { role: "user", content: "Quero fazer uma cotação para minha empresa." }
+          ]
+        },
+        {
+          id: "multiturn",
+          title: "Contexto de múltiplos turnos",
+          description: "Histórico de conversa maior para medir o custo de contexto.",
+          kind: "repeated",
+          messages: [
+            { role: "user", content: "Tenho interesse na linha empresarial." },
+            { role: "assistant", content: "Certo. Qual aspecto deseja conhecer?" },
+            { role: "user", content: "Preciso de entrega para cinco unidades na Bahia. Quanto tempo demora?" }
+          ]
+        },
+        {
+          id: "long-message",
+          title: "Mensagem longa",
+          description: "Solicitação extensa semelhante a um áudio transcrito ou descrição detalhada.",
+          kind: "repeated",
+          messages: [
+            {
+              role: "user",
+              content:
+                "Olá. Represento uma empresa com unidades em três cidades da Bahia. Precisamos avaliar uma compra " +
+                "em volume, com entregas parciais, notas separadas por unidade e possibilidade de atendimento por " +
+                "WhatsApp durante a definição dos itens. Gostaria de saber quais informações devo enviar para que " +
+                "a equipe prepare uma cotação e quais etapas existem entre a solicitação, a confirmação dos produtos, " +
+                "a negociação logística e a emissão do pedido."
+            }
+          ]
+        },
+        {
+          id: "human-handoff",
+          title: "Encaminhamento humano",
+          description: "Verifica uma resposta curta e imediata para transferência à equipe.",
+          kind: "repeated",
+          messages: [
+            { role: "user", content: "Quero falar com uma pessoa da equipe agora." }
+          ]
+        },
+        {
+          id: "sequential-burst",
+          title: "Rajada sequencial",
+          description: "Cinco mensagens enviadas uma após outra, simulando atividade contínua.",
+          kind: "sequential",
+          messages: [
+            { role: "user", content: "Quero conhecer os produtos disponíveis." }
+          ]
+        },
+        {
+          id: "concurrent-burst",
+          title: "Pico simultâneo",
+          description: "Várias conversas independentes iniciando ao mesmo tempo.",
+          kind: "concurrent",
+          messages: [
+            { role: "user", content: "Preciso iniciar uma cotação pelo WhatsApp." }
+          ]
+        }
+      ];
+
+      const state = {
+        results: [],
+        running: false,
+        logs: []
+      };
+
+      const els = {
+        endpoint: document.getElementById("endpoint"),
+        timeout: document.getElementById("timeout"),
+        runs: document.getElementById("runs"),
+        concurrency: document.getElementById("concurrency"),
+        mockMode: document.getElementById("mockMode"),
+        excellent: document.getElementById("excellent"),
+        acceptable: document.getElementById("acceptable"),
+        testList: document.getElementById("testList"),
+        metrics: document.getElementById("metrics"),
+        resultsBody: document.getElementById("resultsBody"),
+        summaryBody: document.getElementById("summaryBody"),
+        emptyResults: document.getElementById("emptyResults"),
+        emptySummary: document.getElementById("emptySummary"),
+        log: document.getElementById("log"),
+        runAll: document.getElementById("runAll"),
+        exportJson: document.getElementById("exportJson"),
+        clear: document.getElementById("clear")
+      };
+
+      function config() {
+        return {
+          endpoint: els.endpoint.value.trim() || "/api/inference",
+          timeoutMs: Math.max(1000, Number(els.timeout.value) || 15000),
+          runs: Math.min(50, Math.max(1, Number(els.runs.value) || 5)),
+          concurrency: Math.min(30, Math.max(2, Number(els.concurrency.value) || 5)),
+          mock: els.mockMode.checked,
+          excellentMs: Math.max(100, Number(els.excellent.value) || 2000),
+          acceptableMs: Math.max(500, Number(els.acceptable.value) || 5000)
+        };
+      }
+
+      function escapeHtml(value) {
+        return String(value)
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#039;");
+      }
+
+      function nowLabel() {
+        return new Intl.DateTimeFormat("pt-BR", {
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit"
+        }).format(new Date());
+      }
+
+      function log(message, type = "muted") {
+        state.logs.push({
+          time: nowLabel(),
+          message,
+          type
+        });
+        if (state.logs.length > 300) state.logs.shift();
+        renderLog();
+      }
+
+      function renderLog() {
+        els.log.innerHTML = state.logs.length
+          ? state.logs.map(item =>
+              `<span class="log-line ${item.type}">[${item.time}] ${escapeHtml(item.message)}</span>`
+            ).join("")
+          : `<span class="log-line muted">Aguardando execução.</span>`;
+        els.log.scrollTop = els.log.scrollHeight;
+      }
+
+      function evaluate(ms, successful) {
+        const cfg = config();
+        if (!successful) {
+          return { key: "fail", label: "Falha" };
+        }
+        if (ms <= cfg.excellentMs) {
+          return { key: "ok", label: "Bom" };
+        }
+        if (ms <= cfg.acceptableMs) {
+          return { key: "warn", label: "Aceitável" };
+        }
+        return { key: "fail", label: "Lento" };
+      }
+
+      function mockReply(messages) {
+        const text = String(messages.at(-1)?.content || "").toLowerCase();
+        if (text.includes("pessoa")) {
+          return {
+            reply: "Vou encaminhar sua conversa para uma pessoa da equipe.",
+            intent: "humano",
+            action: "human",
+            confidence: 0.98,
+            needs_human: true
+          };
+        }
+        if (text.includes("cotação") || text.includes("cotacao")) {
+          return {
+            reply: "Qual produto, quantidade e local de entrega devo considerar na cotação?",
+            intent: "cotacao",
+            action: "collect_data",
+            confidence: 0.96,
+            needs_human: false
+          };
+        }
+        return {
+          reply: "Entendi. Pode fornecer mais detalhes para que eu direcione sua solicitação?",
+          intent: "informacao",
+          action: "collect_data",
+          confidence: 0.86,
+          needs_human: false
+        };
+      }
+
+      async function mockRequest(messages, testId, runIndex) {
+        const base = {
+          "cold-start": 1900,
+          "greeting": 620,
+          "commercial": 920,
+          "multiturn": 1260,
+          "long-message": 1580,
+          "human-handoff": 540,
+          "sequential-burst": 780,
+          "concurrent-burst": 1250
+        }[testId] || 900;
+
+        const coldPenalty = testId === "cold-start" && runIndex === 1 ? 650 : 0;
+        const jitter = Math.round((Math.random() - .5) * 420);
+        const totalMs = Math.max(120, base + coldPenalty + jitter);
+        const ttfbMs = Math.max(60, Math.round(totalMs * (.35 + Math.random() * .18)));
+
+        await new Promise(resolve => setTimeout(resolve, totalMs));
+
+        return {
+          successful: true,
+          status: 200,
+          ttfbMs,
+          totalMs,
+          body: mockReply(messages)
+        };
+      }
+
+      async function realRequest(messages) {
+        const cfg = config();
+        const controller = new AbortController();
+        const started = performance.now();
+        let ttfb = null;
+
+        const timeoutId = setTimeout(() => controller.abort(), cfg.timeoutMs);
+
+        try {
+          const response = await fetch(cfg.endpoint, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ messages }),
+            signal: controller.signal
+          });
+
+          ttfb = performance.now() - started;
+
+          const text = await response.text();
+          const total = performance.now() - started;
+
+          let body = null;
+          try {
+            body = text ? JSON.parse(text) : {};
+          } catch {
+            body = { reply: text || "Resposta sem conteúdo JSON." };
+          }
+
+          return {
+            successful: response.ok,
+            status: response.status,
+            ttfbMs: ttfb,
+            totalMs: total,
+            body
+          };
+        } catch (error) {
+          const total = performance.now() - started;
+          return {
+            successful: false,
+            status: error.name === "AbortError" ? "timeout" : "erro",
+            ttfbMs: ttfb,
+            totalMs: total,
+            body: null,
+            error: error.name === "AbortError"
+              ? `Timeout após ${cfg.timeoutMs} ms`
+              : error.message
+          };
+        } finally {
+          clearTimeout(timeoutId);
+        }
+      }
+
+      async function executeRequest(test, runIndex) {
+        const cfg = config();
+        const result = cfg.mock
+          ? await mockRequest(test.messages, test.id, runIndex)
+          : await realRequest(test.messages);
+
+        const row = {
+          testId: test.id,
+          testTitle: test.title,
+          run: runIndex,
+          timestamp: new Date().toISOString(),
+          successful: result.successful,
+          status: result.status,
+          ttfbMs: result.ttfbMs == null ? null : Math.round(result.ttfbMs),
+          totalMs: Math.round(result.totalMs),
+          reply: result.body?.reply || "",
+          error: result.error || null
+        };
+
+        state.results.push(row);
+
+        const assessment = evaluate(row.totalMs, row.successful);
+        log(
+          `${test.title} #${runIndex}: ${row.totalMs} ms (${assessment.label})`,
+          row.successful ? (assessment.key === "fail" ? "error" : "ok") : "error"
+        );
+
+        render();
+        return row;
+      }
+
+      async function runTest(test) {
+        if (state.running) return;
+        state.running = true;
+        updateButtons();
+        log(`Iniciando: ${test.title}`);
+
+        try {
+          const cfg = config();
+
+          if (test.kind === "cold") {
+            await executeRequest(test, 1);
+          } else if (test.kind === "concurrent") {
+            const calls = Array.from(
+              { length: cfg.concurrency },
+              (_, index) => executeRequest(test, index + 1)
+            );
+            await Promise.all(calls);
+          } else {
+            const count = test.kind === "sequential" ? 5 : cfg.runs;
+            for (let i = 1; i <= count; i += 1) {
+              await executeRequest(test, i);
+            }
+          }
+
+          log(`Concluído: ${test.title}`, "ok");
+        } finally {
+          state.running = false;
+          updateButtons();
+          render();
+        }
+      }
+
+      async function runAll() {
+        if (state.running) return;
+        state.running = true;
+        updateButtons();
+        log("Iniciando suíte completa.");
+
+        try {
+          const cfg = config();
+
+          for (const test of TESTS) {
+            log(`Executando cenário: ${test.title}`);
+
+            if (test.kind === "cold") {
+              await executeRequest(test, 1);
+            } else if (test.kind === "concurrent") {
+              await Promise.all(
+                Array.from(
+                  { length: cfg.concurrency },
+                  (_, index) => executeRequest(test, index + 1)
+                )
+              );
+            } else {
+              const count = test.kind === "sequential" ? 5 : cfg.runs;
+              for (let i = 1; i <= count; i += 1) {
+                await executeRequest(test, i);
+              }
+            }
+          }
+
+          log("Suíte completa finalizada.", "ok");
+        } finally {
+          state.running = false;
+          updateButtons();
+          render();
+        }
+      }
+
+      function percentile(values, p) {
+        if (!values.length) return 0;
+        const sorted = [...values].sort((a, b) => a - b);
+        const index = Math.ceil((p / 100) * sorted.length) - 1;
+        return sorted[Math.max(0, Math.min(sorted.length - 1, index))];
+      }
+
+      function average(values) {
+        if (!values.length) return 0;
+        return values.reduce((sum, value) => sum + value, 0) / values.length;
+      }
+
+      function groupedSummary() {
+        return TESTS.map(test => {
+          const rows = state.results.filter(row => row.testId === test.id);
+          const successfulRows = rows.filter(row => row.successful);
+          const values = successfulRows.map(row => row.totalMs);
+          const successRate = rows.length
+            ? (successfulRows.length / rows.length) * 100
+            : 0;
+
+          return {
+            test,
+            samples: rows.length,
+            successRate,
+            average: Math.round(average(values)),
+            p50: Math.round(percentile(values, 50)),
+            p95: Math.round(percentile(values, 95)),
+            max: values.length ? Math.max(...values) : 0
+          };
+        }).filter(item => item.samples > 0);
+      }
+
+      function overallStats() {
+        const rows = state.results;
+        const successful = rows.filter(row => row.successful);
+        const totals = successful.map(row => row.totalMs);
+        const ttfb = successful
+          .map(row => row.ttfbMs)
+          .filter(value => Number.isFinite(value));
+
+        return {
+          calls: rows.length,
+          successRate: rows.length ? (successful.length / rows.length) * 100 : 0,
+          p50: Math.round(percentile(totals, 50)),
+          p95: Math.round(percentile(totals, 95)),
+          avgTtfb: Math.round(average(ttfb))
+        };
+      }
+
+      function renderTestList() {
+        els.testList.innerHTML = TESTS.map(test => `
+          <button class="test-card" data-test="${escapeHtml(test.id)}">
+            <strong>${escapeHtml(test.title)}</strong>
+            <span>${escapeHtml(test.description)}</span>
+          </button>
+        `).join("");
+
+        els.testList.querySelectorAll("[data-test]").forEach(button => {
+          button.addEventListener("click", () => {
+            const test = TESTS.find(item => item.id === button.dataset.test);
+            if (test) runTest(test);
+          });
+        });
+      }
+
+      function renderMetrics() {
+        const stats = overallStats();
+        const cards = [
+          {
+            label: "Chamadas",
+            value: stats.calls,
+            detail: "requisições concluídas"
+          },
+          {
+            label: "Taxa de sucesso",
+            value: `${stats.successRate.toFixed(1)}%`,
+            detail: "HTTP válido e sem timeout"
+          },
+          {
+            label: "TTFB médio",
+            value: `${stats.avgTtfb} ms`,
+            detail: "até os cabeçalhos HTTP"
+          },
+          {
+            label: "Latência p50",
+            value: `${stats.p50} ms`,
+            detail: "experiência mediana"
+          },
+          {
+            label: "Latência p95",
+            value: `${stats.p95} ms`,
+            detail: "cauda de lentidão"
+          }
+        ];
+
+        els.metrics.innerHTML = cards.map(card => `
+          <article class="metric">
+            <div class="metric-label">${escapeHtml(card.label)}</div>
+            <div class="metric-value">${escapeHtml(card.value)}</div>
+            <div class="metric-detail">${escapeHtml(card.detail)}</div>
+          </article>
+        `).join("");
+      }
+
+      function renderResults() {
+        els.emptyResults.hidden = state.results.length > 0;
+        els.resultsBody.innerHTML = [...state.results].reverse().map(row => {
+          const assessment = evaluate(row.totalMs, row.successful);
+          const cfg = config();
+          const width = Math.min(100, (row.totalMs / Math.max(cfg.acceptableMs, 1)) * 100);
+
+          return `
+            <tr>
+              <td>${escapeHtml(row.testTitle)}</td>
+              <td>#${row.run}</td>
+              <td>${row.ttfbMs == null ? "—" : `${row.ttfbMs} ms`}</td>
+              <td>
+                <strong>${row.totalMs} ms</strong>
+                <div class="bar-shell">
+                  <div class="bar" style="width:${width}%"></div>
+                </div>
+              </td>
+              <td>${escapeHtml(row.status)}</td>
+              <td><span class="status ${assessment.key}">${assessment.label}</span></td>
+              <td class="wrap">${escapeHtml(row.error || row.reply || "Sem conteúdo")}</td>
+            </tr>
+          `;
+        }).join("");
+      }
+
+      function renderSummary() {
+        const summary = groupedSummary();
+        els.emptySummary.hidden = summary.length > 0;
+
+        els.summaryBody.innerHTML = summary.map(item => {
+          const assessment = evaluate(item.p95, item.successRate === 100);
+          return `
+            <tr>
+              <td>${escapeHtml(item.test.title)}</td>
+              <td>${item.samples}</td>
+              <td>${item.successRate.toFixed(1)}%</td>
+              <td>${item.average} ms</td>
+              <td>${item.p50} ms</td>
+              <td><strong>${item.p95} ms</strong></td>
+              <td>${item.max} ms</td>
+              <td><span class="status ${assessment.key}">${assessment.label}</span></td>
+            </tr>
+          `;
+        }).join("");
+      }
+
+      function render() {
+        renderMetrics();
+        renderResults();
+        renderSummary();
+        renderLog();
+        updateButtons();
+      }
+
+      function updateButtons() {
+        els.runAll.disabled = state.running;
+        els.clear.disabled = state.running;
+        els.exportJson.disabled = state.running || state.results.length === 0;
+        els.runAll.textContent = state.running ? "Executando..." : "Executar suíte";
+      }
+
+      function clearResults() {
+        if (state.running) return;
+        state.results = [];
+        state.logs = [];
+        render();
+      }
+
+      function exportJson() {
+        const payload = {
+          exported_at: new Date().toISOString(),
+          configuration: config(),
+          overall: overallStats(),
+          summary: groupedSummary().map(item => ({
+            test_id: item.test.id,
+            test_title: item.test.title,
+            samples: item.samples,
+            success_rate: item.successRate,
+            average_ms: item.average,
+            p50_ms: item.p50,
+            p95_ms: item.p95,
+            max_ms: item.max
+          })),
+          results: state.results
+        };
+
+        const blob = new Blob(
+          [JSON.stringify(payload, null, 2)],
+          { type: "application/json" }
+        );
+        const url = URL.createObjectURL(blob);
+        const anchor = document.createElement("a");
+        anchor.href = url;
+        anchor.download = `whatsapp-latency-${Date.now()}.json`;
+        anchor.click();
+        URL.revokeObjectURL(url);
+      }
+
+      els.runAll.addEventListener("click", runAll);
+      els.clear.addEventListener("click", clearResults);
+      els.exportJson.addEventListener("click", exportJson);
+
+      [els.excellent, els.acceptable].forEach(input => {
+        input.addEventListener("change", render);
+      });
+
+      renderTestList();
+      render();
+    })();
+  </script>
+</body>
+</html>

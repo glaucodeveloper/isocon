@@ -1,0 +1,731 @@
+{
+  "site": {
+    "company": "ISOCON Distribuidora Atacadista",
+    "phone": "(77) 3424-1234",
+    "whatsapp": "5577988881234",
+    "whatsappDisplay": "(77) 98888-1234",
+    "email": "comercial@isoconba.com.br",
+    "hours": "Segunda a Sexta: 08h às 18h",
+    "addressTitle": "Vitória da Conquista - BA",
+    "addressLines": [
+      "Endereço comercial a confirmar",
+      "Vitória da Conquista - BA"
+    ],
+    "coverage": "Atendimento nacional por parceiros logísticos"
+  },
+  "home": {
+    "title": "Distribuição atacadista com inteligência logística para todo o Brasil.",
+    "subtitle": "Soluções completas em produtos, equipamentos e suprimentos para empresas de diversos segmentos.",
+    "heroImage": "./assets/images/hero-home.webp",
+    "benefits": [
+      {
+        "icon": "bi-box-seam",
+        "title": "Portfólio amplo",
+        "text": "Linhas organizadas para diferentes necessidades empresariais."
+      },
+      {
+        "icon": "bi-map",
+        "title": "Atendimento nacional",
+        "text": "Negociações e entregas para todas as regiões do Brasil."
+      },
+      {
+        "icon": "bi-truck",
+        "title": "Logística coordenada",
+        "text": "Operação realizada com transportadoras e parceiros especializados."
+      },
+      {
+        "icon": "bi-handshake",
+        "title": "Relacionamento comercial",
+        "text": "Condução consultiva para composição e fechamento do negócio."
+      }
+    ],
+    "trust": [
+      {
+        "icon": "bi-box",
+        "title": "Catálogo amplo",
+        "text": "Itens organizados por segmentos e linhas."
+      },
+      {
+        "icon": "bi-person",
+        "title": "Atendimento empresarial",
+        "text": "Entrada de demanda com contexto comercial."
+      },
+      {
+        "icon": "bi-compass",
+        "title": "Cobertura nacional",
+        "text": "Entrega definida conforme destino e volume."
+      },
+      {
+        "icon": "bi-gear",
+        "title": "Soluções completas",
+        "text": "Produtos, logística e suporte para sua empresa."
+      }
+    ]
+  },
+  "segments": [
+    {
+      "id": "informatica",
+      "name": "Informática e Tecnologia",
+      "icon": "bi-display",
+      "description": "Equipamentos, periféricos, redes, softwares e soluções de TI para empresas de todos os portes.",
+      "image": "./assets/images/segment-informatica.webp",
+      "examples": [
+        "Computadores e notebooks",
+        "Periféricos e acessórios",
+        "Redes e conectividade",
+        "Impressão e digitalização"
+      ]
+    },
+    {
+      "id": "papelaria",
+      "name": "Papelaria Corporativa",
+      "icon": "bi-pencil",
+      "description": "Materiais de escritório, escolares, impressão, arquivos e organização.",
+      "image": "./assets/images/segment-papelaria.webp",
+      "examples": [
+        "Papel e impressão",
+        "Escritório e organização",
+        "Materiais escolares",
+        "Apresentação e reuniões"
+      ]
+    },
+    {
+      "id": "eletrico",
+      "name": "Material Elétrico",
+      "icon": "bi-plug",
+      "description": "Materiais elétricos, iluminação, cabos, proteção e instalação.",
+      "image": "./assets/images/segment-eletrico.webp",
+      "examples": [
+        "Cabos e fios",
+        "Disjuntores e quadros",
+        "Iluminação e LED",
+        "Tomadas e interruptores"
+      ]
+    },
+    {
+      "id": "ferragens",
+      "name": "Ferragens e Ferramentas",
+      "icon": "bi-tools",
+      "description": "Ferramentas manuais, elétricas, fixadores e equipamentos de apoio.",
+      "image": "./assets/images/segment-ferragens.webp",
+      "examples": [
+        "Ferramentas manuais",
+        "Ferramentas elétricas",
+        "Fixadores e ferragens",
+        "Segurança e EPIs"
+      ]
+    },
+    {
+      "id": "embalagens",
+      "name": "Embalagens e Descartáveis",
+      "icon": "bi-box-seam",
+      "description": "Embalagens, sacos, filmes, descartáveis, EPIs e materiais de operação.",
+      "image": "./assets/images/segment-embalagens.webp",
+      "examples": [
+        "Caixas e papéis",
+        "Sacos e sacolas",
+        "Copos e descartáveis",
+        "Filmes e plásticos"
+      ]
+    },
+    {
+      "id": "maquinas",
+      "name": "Equipamentos e Máquinas",
+      "icon": "bi-gear",
+      "description": "Máquinas, equipamentos e acessórios para indústria, comércio e construção.",
+      "image": "./assets/images/segment-maquinas.webp",
+      "examples": [
+        "Máquinas industriais",
+        "Compressores e geradores",
+        "Equipamentos diversos",
+        "Manutenção industrial"
+      ]
+    },
+    {
+      "id": "mobiliario",
+      "name": "Mobiliário e Utilidades",
+      "icon": "bi-chair",
+      "description": "Móveis, cadeiras, mesas, arquivos e utilidades empresariais.",
+      "image": "./assets/images/segment-mobiliario.webp",
+      "examples": [
+        "Móveis para escritório",
+        "Cadeiras e poltronas",
+        "Mesas e estações",
+        "Armazenamento"
+      ]
+    },
+    {
+      "id": "refrigeracao",
+      "name": "Refrigeração e Climatização",
+      "icon": "bi-snow",
+      "description": "Soluções de refrigeração, ar-condicionado, ventilação e peças.",
+      "image": "./assets/images/segment-refrigeracao.webp",
+      "examples": [
+        "Ar-condicionado",
+        "Ventilação",
+        "Cortinas de ar",
+        "Peças e acessórios"
+      ]
+    },
+    {
+      "id": "limpeza",
+      "name": "Limpeza e Higiene",
+      "icon": "bi-droplet",
+      "description": "Produtos e equipamentos para limpeza, higienização e conservação.",
+      "image": "./assets/images/segment-limpeza.webp",
+      "examples": [
+        "Produtos de limpeza",
+        "Higiene pessoal",
+        "Desinfecção",
+        "Equipamentos"
+      ]
+    },
+    {
+      "id": "outros",
+      "name": "Outros Segmentos",
+      "icon": "bi-grid",
+      "description": "Soluções diversificadas e itens específicos para demandas empresariais.",
+      "image": "./assets/images/segment-outros.webp",
+      "examples": [
+        "Produtos diversos",
+        "Itens personalizados",
+        "Projetos sob demanda",
+        "Consulte nossas opções"
+      ]
+    }
+  ],
+  "lines": [
+    {
+      "id": "computadores",
+      "segmentId": "informatica",
+      "name": "Computadores e Notebooks",
+      "description": "Equipamentos corporativos para produtividade, operação e mobilidade.",
+      "image": "./assets/images/line-tech.webp",
+      "examples": [
+        "Notebooks corporativos",
+        "Desktops empresariais",
+        "Workstations",
+        "Acessórios de energia",
+        "Configurações sob demanda"
+      ]
+    },
+    {
+      "id": "perifericos",
+      "segmentId": "informatica",
+      "name": "Periféricos e Acessórios",
+      "description": "Dispositivos e acessórios para estações de trabalho.",
+      "image": "./assets/images/item-mouse.webp",
+      "examples": [
+        "Mouses",
+        "Teclados",
+        "Monitores",
+        "Headsets",
+        "Webcams"
+      ]
+    },
+    {
+      "id": "armazenamento",
+      "segmentId": "informatica",
+      "name": "Armazenamento e Memórias",
+      "description": "Soluções para armazenamento, expansão e segurança de dados.",
+      "image": "./assets/images/item-hd.webp",
+      "examples": [
+        "HD externo",
+        "SSD",
+        "Memórias",
+        "Pendrives",
+        "Soluções de backup"
+      ]
+    },
+    {
+      "id": "papel-impressao",
+      "segmentId": "papelaria",
+      "name": "Papel e Impressão",
+      "description": "Papéis, etiquetas, bobinas e materiais de impressão.",
+      "image": "./assets/images/segment-papelaria.webp",
+      "examples": [
+        "Papel A4",
+        "Papéis especiais",
+        "Etiquetas",
+        "Bobinas",
+        "Envelopes"
+      ]
+    },
+    {
+      "id": "instalacao-eletrica",
+      "segmentId": "eletrico",
+      "name": "Instalação Elétrica",
+      "description": "Componentes para instalações, proteção e distribuição elétrica.",
+      "image": "./assets/images/segment-eletrico.webp",
+      "examples": [
+        "Cabos e fios",
+        "Disjuntores",
+        "Quadros",
+        "Tomadas",
+        "Acessórios"
+      ]
+    },
+    {
+      "id": "ferramentas-eletricas",
+      "segmentId": "ferragens",
+      "name": "Ferramentas Elétricas",
+      "description": "Equipamentos para construção, manutenção e indústria.",
+      "image": "./assets/images/segment-ferragens.webp",
+      "examples": [
+        "Furadeiras",
+        "Parafusadeiras",
+        "Esmerilhadeiras",
+        "Serras",
+        "Acessórios"
+      ]
+    },
+    {
+      "id": "embalagens-industriais",
+      "segmentId": "embalagens",
+      "name": "Embalagens Industriais",
+      "description": "Materiais para acondicionamento, transporte e proteção.",
+      "image": "./assets/images/segment-embalagens.webp",
+      "examples": [
+        "Caixas",
+        "Filmes",
+        "Fitas",
+        "Sacos",
+        "Proteção interna"
+      ]
+    },
+    {
+      "id": "mobiliario-escritorio",
+      "segmentId": "mobiliario",
+      "name": "Mobiliário de Escritório",
+      "description": "Móveis e utilidades para ambientes administrativos.",
+      "image": "./assets/images/segment-mobiliario.webp",
+      "examples": [
+        "Cadeiras",
+        "Mesas",
+        "Estações",
+        "Armários",
+        "Arquivos"
+      ]
+    },
+    {
+      "id": "climatizacao",
+      "segmentId": "refrigeracao",
+      "name": "Climatização Comercial",
+      "description": "Equipamentos para conforto térmico e conservação.",
+      "image": "./assets/images/segment-refrigeracao.webp",
+      "examples": [
+        "Ar-condicionado",
+        "Ventiladores",
+        "Cortinas de ar",
+        "Peças",
+        "Manutenção"
+      ]
+    },
+    {
+      "id": "higiene-profissional",
+      "segmentId": "limpeza",
+      "name": "Higiene Profissional",
+      "description": "Produtos, consumíveis e equipamentos para limpeza profissional.",
+      "image": "./assets/images/segment-limpeza.webp",
+      "examples": [
+        "Desinfetantes",
+        "Detergentes",
+        "Papéis",
+        "Dispensers",
+        "Equipamentos"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "id": "notebook-corporativo-14",
+      "code": "ISO-TI-001",
+      "ean": "",
+      "ncm": "84713019",
+      "name": "Notebook Corporativo 14”",
+      "segmentId": "informatica",
+      "lineId": "computadores",
+      "category": "Computadores e Notebooks",
+      "subcategory": "Notebooks corporativos",
+      "brand": "",
+      "shortDescription": "Equipamento corporativo para produtividade, mobilidade e trabalho profissional.",
+      "description": "Notebook preparado para rotinas administrativas, trabalho híbrido, operação comercial e aplicações empresariais. A configuração final pode ser ajustada durante a cotação conforme volume, disponibilidade e necessidade da empresa.",
+      "status": "disponivel",
+      "publicationStatus": "publicado",
+      "supplyCondition": "Sob consulta",
+      "unit": "unidade",
+      "minimumQuantity": 1,
+      "type": "produto",
+      "image": "./assets/images/item-notebook.webp",
+      "gallery": [],
+      "documents": [],
+      "attributes": {
+        "Processador": "Intel Core i5",
+        "Memória": "8 GB RAM",
+        "Armazenamento": "SSD 256 GB",
+        "Sistema": "Windows 11 Pro"
+      },
+      "applications": [
+        "Escritórios",
+        "Equipes administrativas",
+        "Trabalho híbrido"
+      ],
+      "benefits": [
+        "Configuração corporativa",
+        "Fornecimento nacional",
+        "Suporte consultivo"
+      ],
+      "logistics": {
+        "coverage": "Nacional",
+        "origin": "Conforme disponibilidade",
+        "modes": [
+          "Rodoviário",
+          "Aéreo"
+        ],
+        "packaging": "Embalagem adequada ao tipo de produto",
+        "restrictions": "Prazo e modalidade definidos durante a cotação"
+      },
+      "featured": true
+    },
+    {
+      "id": "desktop-empresarial",
+      "code": "ISO-TI-002",
+      "ean": "",
+      "ncm": "84715010",
+      "name": "Computador Desktop Empresarial",
+      "segmentId": "informatica",
+      "lineId": "computadores",
+      "category": "Computadores e Notebooks",
+      "subcategory": "Desktops empresariais",
+      "brand": "",
+      "shortDescription": "Estação de trabalho configurável para ambientes corporativos.",
+      "description": "Desktop destinado a estações administrativas, operação comercial e ambientes que exigem manutenção e expansão facilitadas.",
+      "status": "sob_consulta",
+      "publicationStatus": "publicado",
+      "supplyCondition": "Configuração personalizada",
+      "unit": "unidade",
+      "minimumQuantity": 1,
+      "type": "produto",
+      "image": "./assets/images/item-desktop.webp",
+      "gallery": [],
+      "documents": [],
+      "attributes": {
+        "Processador": "Intel Core i5",
+        "Memória": "8 GB RAM",
+        "Armazenamento": "SSD 256 GB",
+        "Sistema": "Windows 11 Pro"
+      },
+      "applications": [
+        "Estações administrativas",
+        "Operação comercial"
+      ],
+      "benefits": [
+        "Expansão facilitada",
+        "Configuração sob demanda"
+      ],
+      "logistics": {
+        "coverage": "Nacional",
+        "origin": "Conforme disponibilidade",
+        "modes": [
+          "Rodoviário"
+        ],
+        "packaging": "Embalagem adequada ao tipo de produto",
+        "restrictions": "Prazo e modalidade definidos durante a cotação"
+      },
+      "featured": true
+    },
+    {
+      "id": "mouse-sem-fio",
+      "code": "ISO-TI-003",
+      "ean": "",
+      "ncm": "84716053",
+      "name": "Mouse sem Fio Óptico",
+      "segmentId": "informatica",
+      "lineId": "perifericos",
+      "category": "Periféricos",
+      "subcategory": "Mouses",
+      "brand": "",
+      "shortDescription": "Periférico ergonômico para uso profissional contínuo.",
+      "description": "Mouse sem fio com conexão estável, desenho confortável e aplicação em estações administrativas.",
+      "status": "disponivel",
+      "publicationStatus": "publicado",
+      "supplyCondition": "Fornecimento em volume",
+      "unit": "unidade",
+      "minimumQuantity": 10,
+      "type": "produto",
+      "image": "./assets/images/item-mouse.webp",
+      "gallery": [],
+      "documents": [],
+      "attributes": {
+        "Conexão": "2.4 GHz",
+        "Resolução": "1600 DPI",
+        "Alimentação": "Bateria"
+      },
+      "applications": [
+        "Escritórios",
+        "Laboratórios",
+        "Estações compartilhadas"
+      ],
+      "benefits": [
+        "Instalação simples",
+        "Conforto de uso"
+      ],
+      "logistics": {
+        "coverage": "Nacional",
+        "origin": "Conforme disponibilidade",
+        "modes": [
+          "Rodoviário",
+          "Aéreo"
+        ],
+        "packaging": "Embalagem adequada ao tipo de produto",
+        "restrictions": "Prazo e modalidade definidos durante a cotação"
+      },
+      "featured": false
+    },
+    {
+      "id": "teclado-usb-abnt2",
+      "code": "ISO-TI-004",
+      "ean": "",
+      "ncm": "84716052",
+      "name": "Teclado USB ABNT2",
+      "segmentId": "informatica",
+      "lineId": "perifericos",
+      "category": "Periféricos",
+      "subcategory": "Teclados",
+      "brand": "",
+      "shortDescription": "Teclado corporativo resistente e silencioso para operação diária.",
+      "description": "Modelo padrão ABNT2 para uso administrativo, escolar e comercial.",
+      "status": "disponivel",
+      "publicationStatus": "publicado",
+      "supplyCondition": "Fornecimento em volume",
+      "unit": "unidade",
+      "minimumQuantity": 10,
+      "type": "produto",
+      "image": "./assets/images/item-teclado.webp",
+      "gallery": [],
+      "documents": [],
+      "attributes": {
+        "Conexão": "USB",
+        "Padrão": "ABNT2",
+        "Teclas": "Silenciosas"
+      },
+      "applications": [
+        "Escritórios",
+        "Escolas",
+        "Balcões de atendimento"
+      ],
+      "benefits": [
+        "Compatibilidade ampla",
+        "Uso contínuo"
+      ],
+      "logistics": {
+        "coverage": "Nacional",
+        "origin": "Conforme disponibilidade",
+        "modes": [
+          "Rodoviário",
+          "Aéreo"
+        ],
+        "packaging": "Embalagem adequada ao tipo de produto",
+        "restrictions": "Prazo e modalidade definidos durante a cotação"
+      },
+      "featured": false
+    },
+    {
+      "id": "hd-externo-1tb",
+      "code": "ISO-TI-005",
+      "ean": "",
+      "ncm": "84717012",
+      "name": "HD Externo 1 TB",
+      "segmentId": "informatica",
+      "lineId": "armazenamento",
+      "category": "Armazenamento",
+      "subcategory": "HD externo",
+      "brand": "",
+      "shortDescription": "Armazenamento portátil para cópias e transporte de dados.",
+      "description": "Unidade externa para backup, transferência e organização de arquivos corporativos.",
+      "status": "sob_consulta",
+      "publicationStatus": "publicado",
+      "supplyCondition": "Sob consulta",
+      "unit": "unidade",
+      "minimumQuantity": 1,
+      "type": "produto",
+      "image": "./assets/images/item-hd.webp",
+      "gallery": [],
+      "documents": [],
+      "attributes": {
+        "Capacidade": "1 TB",
+        "Conexão": "USB 3.0",
+        "Compatibilidade": "Windows e macOS"
+      },
+      "applications": [
+        "Backup",
+        "Transporte de dados",
+        "Arquivamento"
+      ],
+      "benefits": [
+        "Portabilidade",
+        "Instalação simples"
+      ],
+      "logistics": {
+        "coverage": "Nacional",
+        "origin": "Conforme disponibilidade",
+        "modes": [
+          "Rodoviário"
+        ],
+        "packaging": "Embalagem adequada ao tipo de produto",
+        "restrictions": "Prazo e modalidade definidos durante a cotação"
+      },
+      "featured": false
+    }
+  ],
+  "representatives": [
+    {
+      "id": "rep-norte",
+      "region": "Norte",
+      "name": "Rafael Mendes",
+      "role": "Representante Comercial",
+      "phone": "(91) 99123-4567",
+      "email": "norte@isoconba.com.br",
+      "states": [
+        "AC",
+        "AM",
+        "AP",
+        "PA",
+        "RO",
+        "RR",
+        "TO"
+      ],
+      "photo": "./assets/images/rep-norte.webp"
+    },
+    {
+      "id": "rep-nordeste",
+      "region": "Nordeste",
+      "name": "Juliana Santos",
+      "role": "Representante Comercial",
+      "phone": "(71) 99123-4567",
+      "email": "nordeste@isoconba.com.br",
+      "states": [
+        "AL",
+        "BA",
+        "CE",
+        "MA",
+        "PB",
+        "PE",
+        "PI",
+        "RN",
+        "SE"
+      ],
+      "photo": "./assets/images/rep-nordeste.webp"
+    },
+    {
+      "id": "rep-centro",
+      "region": "Centro-Oeste",
+      "name": "Bruno Oliveira",
+      "role": "Representante Comercial",
+      "phone": "(62) 99123-4567",
+      "email": "centrooeste@isoconba.com.br",
+      "states": [
+        "DF",
+        "GO",
+        "MT",
+        "MS"
+      ],
+      "photo": "./assets/images/rep-centro.webp"
+    },
+    {
+      "id": "rep-sudeste",
+      "region": "Sudeste",
+      "name": "Carla Ferreira",
+      "role": "Representante Comercial",
+      "phone": "(11) 99123-4567",
+      "email": "sudeste@isoconba.com.br",
+      "states": [
+        "ES",
+        "MG",
+        "RJ",
+        "SP"
+      ],
+      "photo": "./assets/images/rep-sudeste.webp"
+    },
+    {
+      "id": "rep-sul",
+      "region": "Sul",
+      "name": "Lucas Almeida",
+      "role": "Representante Comercial",
+      "phone": "(41) 99123-4567",
+      "email": "sul@isoconba.com.br",
+      "states": [
+        "PR",
+        "RS",
+        "SC"
+      ],
+      "photo": "./assets/images/rep-sul.webp"
+    }
+  ],
+  "logistics": {
+    "heroImage": "./assets/images/hero-logistics.webp",
+    "mapImage": "./assets/images/logistics-map.webp",
+    "principles": [
+      {
+        "icon": "bi-map",
+        "title": "Cobertura nacional",
+        "text": "Atendimento a todas as regiões do país."
+      },
+      {
+        "icon": "bi-handshake",
+        "title": "Parcerias estratégicas",
+        "text": "Operadores e transportadoras selecionados."
+      },
+      {
+        "icon": "bi-shield-check",
+        "title": "Processos confiáveis",
+        "text": "Conferência, acompanhamento e controle."
+      },
+      {
+        "icon": "bi-box-seam",
+        "title": "Soluções flexíveis",
+        "text": "Condições definidas conforme volume e destino."
+      }
+    ],
+    "steps": [
+      {
+        "title": "Recebimento da solicitação",
+        "text": "A demanda é analisada pela equipe comercial."
+      },
+      {
+        "title": "Separação e conferência",
+        "text": "Itens, quantidades e condições são confirmados."
+      },
+      {
+        "title": "Expedição",
+        "text": "A mercadoria é preparada para coleta."
+      },
+      {
+        "title": "Transporte com parceiros",
+        "text": "A modalidade é definida conforme destino e carga."
+      },
+      {
+        "title": "Entrega e suporte",
+        "text": "Acompanhamento até a conclusão do atendimento."
+      }
+    ],
+    "modes": [
+      "Rodoviário",
+      "Aéreo",
+      "Carga fracionada",
+      "Carga dedicada",
+      "Cross docking"
+    ],
+    "policies": [
+      "Prazos informados durante a cotação",
+      "Acompanhamento disponível conforme transportadora",
+      "Embalagem adequada ao tipo de item",
+      "Condições definidas por produto, volume e destino"
+    ]
+  },
+  "contentNotes": {
+    "representatives": "Nomes, imagens e contatos são dados demonstrativos e devem ser revisados antes da publicação.",
+    "address": "O endereço comercial deve ser confirmado.",
+    "metrics": "Indicadores numéricos foram substituídos por afirmações qualitativas."
+  }
+}

@@ -1,0 +1,73 @@
+name: Deploy ISOCON Website
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "website/**"
+      - ".github/workflows/pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: isocon-github-pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Validar e preparar website
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar repositório
+        uses: actions/checkout@v6
+
+      - name: Verificar estrutura
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          test -f website/index.html || {
+            echo "::error file=website/index.html::O arquivo website/index.html não foi encontrado."
+            exit 1
+          }
+
+          test -d website/assets || {
+            echo "::error file=website/assets::A pasta website/assets não foi encontrada."
+            exit 1
+          }
+
+          if test -f website/data/catalog.json; then
+            python3 -m json.tool website/data/catalog.json >/dev/null
+          fi
+
+          echo "Conteúdo que será publicado:"
+          find website -maxdepth 3 -type f | sort
+
+      - name: Configurar GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Empacotar diretório website
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: ./website
+          include-hidden-files: true
+
+  deploy:
+    name: Publicar no GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Fazer deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
