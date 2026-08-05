@@ -664,7 +664,7 @@
   ],
   "logistics": {
     "heroImage": "./assets/images/hero-logistics.webp",
-    "mapImage": "./assets/images/logistics-map.webp",
+    "mapImage": "./assets/images/logistics-map.png",
     "principles": [
       {
         "icon": "bi-map",
