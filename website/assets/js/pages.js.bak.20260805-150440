@@ -79,7 +79,7 @@ export function homePage() {
   const segments = state.data.segments.slice(0, 6);
   mountCards("[data-home-segment]", "segment-card", segments);
   return template`
-  <section class="home-hero">
+  <section class="home-hero" style="--hero-image:url('${home.heroImage}')">
     <div class="container-fluid site-container">
       <div class="home-hero-grid">
         <div class="home-hero-copy">

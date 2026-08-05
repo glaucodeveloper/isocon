@@ -4,35 +4,6 @@ import {
 } from "./utils.js";
 
 const template = String.raw;
-
-/*
- * Resolve mídia a partir da localização real deste módulo.
- * pages.js está em website/assets/js/. Subindo dois níveis,
- * chegamos à raiz pública de website/.
- */
-const publicRootUrl = new URL("../../", import.meta.url);
-
-const publicMediaUrl = (value = "") => {
-  const source = String(value || "").trim();
-  if (!source) return "";
-
-  if (/^(?:data:|blob:|https?:\/\/)/i.test(source)) return source;
-
-  const normalized = source
-    .replaceAll("\\", "/")
-    .replace(/^\.?\//, "")
-    .replace(/^website\//, "");
-
-  return new URL(normalized, publicRootUrl).href;
-};
-
-const cssBackgroundUrl = (value = "") => {
-  const resolved = publicMediaUrl(value)
-    .replaceAll("\\", "\\\\")
-    .replaceAll('"', '\\"');
-
-  return `url("${resolved}")`;
-};
 const mountCards = (selector, tagName, entries) => {
   queueMicrotask(() => document.querySelectorAll(selector).forEach((container, index) => {
     const card = document.createElement(tagName);
@@ -79,7 +50,7 @@ export function homePage() {
   const segments = state.data.segments.slice(0, 6);
   mountCards("[data-home-segment]", "segment-card", segments);
   return template`
-  <section class="home-hero">
+  <section class="home-hero" style="--hero-image:url('${home.heroImage}')">
     <div class="container-fluid site-container">
       <div class="home-hero-grid">
         <div class="home-hero-copy">

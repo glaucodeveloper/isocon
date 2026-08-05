@@ -113,9 +113,8 @@ img { max-width: 100%; }
 
 /* Home */
 .home-hero {
-  background-image: linear-gradient(90deg, rgba(3, 22, 55, .98) 0%, rgba(4, 32, 72, .93) 38%, rgba(5, 31, 67, .18) 75%), url("../images/hero-home.png");
   min-height: 465px; color: #fff;
-  
+  background-image: linear-gradient(90deg, rgba(3, 22, 55, .98) 0%, rgba(4, 32, 72, .9) 38%, rgba(5, 31, 67, .18) 75%), var(--hero-image);
   background-position: center; background-size: cover;
 }
 .home-hero-grid { min-height: 465px; display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 28px; align-items: center; }

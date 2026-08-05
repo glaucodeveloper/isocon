@@ -47,7 +47,7 @@ const breadcrumbs = (entries) => `<nav class="breadcrumbs">${entries.map((entry,
 ).join("")}</nav>`;
 
 const pageHero = (title, subtitle, image, benefits = []) => template`
-<section class="inner-hero" style="--hero-image:url('${image}')">
+<section class="inner-hero" style="--hero-image:${cssBackgroundUrl(image)}">
   <div class="container-fluid site-container">
     <div class="inner-hero-grid">
       <div><span class="red-line"></span><h1>${esc(title)}</h1><p>${esc(subtitle)}</p></div>
@@ -79,7 +79,7 @@ export function homePage() {
   const segments = state.data.segments.slice(0, 6);
   mountCards("[data-home-segment]", "segment-card", segments);
   return template`
-  <section class="home-hero">
+  <section class="home-hero" style="--hero-image:${cssBackgroundUrl(home.heroImage)}">
     <div class="container-fluid site-container">
       <div class="home-hero-grid">
         <div class="home-hero-copy">

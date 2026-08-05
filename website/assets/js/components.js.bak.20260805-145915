@@ -30,7 +30,7 @@ export class SiteHeader extends HTMLElement {
         <div class="container-fluid site-container py-2">
           <a class="navbar-brand brand-lockup" href="#/" aria-label="ISOCON Início">
             <img class="brand-symbol brand-logo-image" src="./assets/images/logo%201.png" alt="ISOCON">
-            <span class="brand-name">ISOCON</span>
+            <span class="brand-name">ISOCON<small>DISTRIBUIDORA ATACADISTA</small></span>
           </a>
           <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#siteMenu">
             <span class="navbar-toggler-icon"></span>
@@ -86,7 +86,7 @@ export class SiteFooter extends HTMLElement {
             <div class="col-lg-3">
               <div class="brand-lockup brand-lockup-light mb-3">
                 <img class="brand-symbol brand-logo-image" src="./assets/images/logo%201.png" alt="ISOCON">
-                <span class="brand-name">ISOCON</span>
+                <span class="brand-name">ISOCON<small>DISTRIBUIDORA ATACADISTA</small></span>
               </div>
               <p>Distribuindo capacidade, construindo parcerias e coordenando entregas para empresas.</p>
               <div class="social-links">
@@ -116,7 +116,7 @@ export class SiteFooter extends HTMLElement {
           </div>
           <hr>
           <div class="d-flex justify-content-between flex-wrap gap-2 site-footer-bottom">
-            <span>© 2026 ISOCON.</span><span>Catálogo B2B com atendimento comercial.</span>
+            <span>© 2026 ISOCON Distribuidora Atacadista.</span><span>Catálogo B2B com atendimento comercial.</span>
           </div>
         </div>
       </footer>`;
