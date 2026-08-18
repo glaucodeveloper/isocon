@@ -370,9 +370,7 @@ function storeContactMessage(form) {
   persistContacts();
 }
 
-document.addEventListener("submit", (event) => {
-  if (event.target?.matches("#contactForm")) storeContactMessage(event.target);
-}, true);
+// contato localStorage substituído por github-storage-realtime-patch.js
 
 document.addEventListener("contactchange", () => refreshAdminNotifications());
 
@@ -839,12 +837,13 @@ document.addEventListener("click", (event) => {
  * O elemento raiz é importado por último. Assim o interceptor de fetch e os
  * métodos administrativos já estão instalados antes do primeiro render.
  */
-await import("./chat-conversations-patch.js");
+// chat localStorage substituído por github-storage-realtime-patch.js
 await import("./institutional-admin-presence-patch.js");
 await import("./product-media-repo-patch.js");
 await import("./asset-url-fallback-patch.js");
 await import("./sidebar-implementation-section-patch.js");
 await import("./copywriting-seo-patch.js");
+await import("./github-storage-realtime-patch.js");
 await import("./app.js");
 
 syncItemControls();

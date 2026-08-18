@@ -22,8 +22,8 @@ const PRESENCE = Object.freeze({
   branch: "presence",
   file: "admin-status.json",
   pollMs: 5000,
-  heartbeatMs: 30000,
-  ttlMs: 55000,
+  heartbeatMs: 20000,
+  ttlMs: 90000,
   rawUrl: `https://raw.githubusercontent.com/${githubConfig.owner}/${githubConfig.repo}/presence/admin-status.json`,
 });
 
@@ -360,7 +360,7 @@ function startRemoteHeartbeat() {
   // Publica para outros navegadores e dispositivos.
   queuePresenceWrite(true);
   remoteHeartbeatTimer = setInterval(() => {
-    if (state.token && document.visibilityState !== "hidden") {
+    if (state.token) {
       setOptimisticPresence(true);
       queuePresenceWrite(true);
     }

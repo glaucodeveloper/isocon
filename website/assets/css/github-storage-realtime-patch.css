@@ -1,0 +1,48 @@
+.gh-storage-error,
+.gh-contact-status {
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: .84rem;
+  line-height: 1.4;
+}
+
+.gh-storage-error {
+  margin: 10px 14px;
+  color: #8b1e1e;
+  background: #fff3f3;
+  border: 1px solid #efc3c3;
+}
+
+.gh-contact-status {
+  display: none;
+  margin-top: 14px;
+}
+
+.gh-contact-status.loading,
+.gh-contact-status.success,
+.gh-contact-status.error {
+  display: block;
+}
+
+.gh-contact-status.loading {
+  color: #1e466f;
+  background: #edf4fb;
+}
+
+.gh-contact-status.success {
+  color: #176331;
+  background: #edf8f0;
+  border: 1px solid #b9e2c4;
+}
+
+.gh-contact-status.error {
+  color: #8b1e1e;
+  background: #fff3f3;
+  border: 1px solid #efc3c3;
+}
+
+.admin-conversation-room footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
